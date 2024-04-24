@@ -43,5 +43,10 @@ const quickLinks = [
 		title: "View Salary Slips",
 		route: "SalarySlipsDashboard",
 	},
+	{
+		icon: markRaw(LeaveIcon),
+		title: "Request Attendence",
+		route: "EmployeeAttendenceFormView",
+	},
 ]
 </script>
