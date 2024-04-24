@@ -15,7 +15,7 @@
 							label="Email"
 							placeholder="johndoe@mail.com"
 							v-model="email"
-							type="email"
+							type="text"
 						/>
 						<Input
 							label="Password"
