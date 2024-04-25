@@ -43,6 +43,7 @@ const formFields = createResource({
 	transform(data) {
 		let fields = getFilteredFields(data)
 
+		console.log("fields ==== ", fields)
 		return fields.map((field) => {
 			if (field.fieldname === "half_day_date") field.hidden = true
 
