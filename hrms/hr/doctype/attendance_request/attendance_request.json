@@ -27,7 +27,6 @@
  ],
  "fields": [
   {
-   "default": "HR-EMP-00001",
    "fieldname": "employee",
    "fieldtype": "Link",
    "in_global_search": 1,
@@ -140,7 +139,7 @@
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2024-04-25 17:26:29.377180",
+ "modified": "2024-04-26 12:42:37.958279",
  "modified_by": "Administrator",
  "module": "HR",
  "name": "Attendance Request",

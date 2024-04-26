@@ -40,6 +40,11 @@ const routes = [
 				name: "SalarySlipsDashboard",
 				component: () => import("@/views/salary_slip/Dashboard.vue"),
 			},
+			{
+				path: "/dashboard/attendance",
+				name: "AttendanceDashboard",
+				component: () => import("@/views/attendence/Dashboard.vue"),
+			}
 		],
 	},
 	{
