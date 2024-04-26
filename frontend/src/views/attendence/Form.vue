@@ -54,4 +54,8 @@ function getFilteredFields(fields) {
 
 }
 
+function validateForm() {
+	attendenceApplication.value.employee = employee.data.name
+}
+
 </script>
