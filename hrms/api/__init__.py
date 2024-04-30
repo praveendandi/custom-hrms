@@ -105,6 +105,38 @@ def are_push_notifications_enabled() -> bool:
 		return False
 
 
+# Attendance
+@frappe.whitelist()
+def get_attendance_requests(
+	employee: str,
+	approver_id: str | None = None,
+	for_approval: bool = False,
+	limit: int | None = None,
+) -> list[dict]:
+	filters = {"employee": employee}
+	fields = [
+		"*"
+	]
+	print(" ======  Attendance ===== ",)
+	# if workflow_state_field := get_workflow_state_field("Attendance Request"):
+	# 	fields.append(workflow_state_field)
+
+	applications = frappe.get_list(
+		"Attendance Request",
+		fields=fields,
+		filters=filters,
+		order_by="creation desc",
+		limit=limit,
+	)
+
+	# if workflow_state_field:
+	# 	for application in applications:
+	# 		application["workflow_state_field"] = workflow_state_field
+	print("Applications  ======   ",applications)
+
+	return applications
+
+
 # Leaves and Holidays
 @frappe.whitelist()
 def get_leave_applications(
@@ -178,8 +210,8 @@ def get_leave_balance_map(employee: str) -> dict[str, dict[str, float]]:
 	"""
 	Returns a map of leave type and balance details like:
 	{
-	        'Casual Leave': {'allocated_leaves': 10.0, 'balance_leaves': 5.0},
-	        'Earned Leave': {'allocated_leaves': 3.0, 'balance_leaves': 3.0},
+			'Casual Leave': {'allocated_leaves': 10.0, 'balance_leaves': 5.0},
+			'Earned Leave': {'allocated_leaves': 3.0, 'balance_leaves': 3.0},
 	}
 	"""
 	from hrms.hr.doctype.leave_application.leave_application import get_leave_details

@@ -112,3 +112,52 @@ export const EXPENSE_CLAIM_FIELDS = [
 		fieldtype: "Select",
 	},
 ]
+
+
+export const ATTENDANCE_FIELDS = [
+	{
+		fieldname: "name",
+		label: "ID",
+		fieldtype: "Data",
+	},
+	{
+		fieldname: "reason",
+		label: "Reason",
+		fieldtype: "Data",
+	},
+	{
+		fieldname: "explanation",
+		label: "Explanation",
+		fieldtype: "Data"
+	},
+	{
+		fieldname: "leave_dates",
+		label: "Leave Dates",
+		fieldtype: "DateRange",
+	},
+	{
+		fieldname: "half_day",
+		label: "Half Day",
+		fieldtype: "Check",
+	},
+	{
+		fieldname: "half_day_date",
+		label: "Half Day Date",
+		fieldtype: "Date",
+	},
+	{
+		fieldname: "shift",
+		label: "Shift",
+		fieldtype: "Data",
+	},
+	{
+		fieldname: "employee",
+		label: "Employee",
+		fieldtype: "Link",
+	},
+	{
+		fieldname: "status",
+		label: "Status",
+		fieldtype: "Select",
+	},
+]

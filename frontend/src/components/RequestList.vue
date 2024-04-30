@@ -42,9 +42,9 @@
 	>
 		<RequestActionSheet
 			:fields="
-				selectedRequest.doctype === 'Leave Application'
-					? LEAVE_FIELDS
-					: EXPENSE_CLAIM_FIELDS
+				selectedRequest.doctype === 'Leave Application'? LEAVE_FIELDS :
+				selectedRequest.doctype === 'Attendance Request' ? ATTENDANCE_FIELDS :
+				EXPENSE_CLAIM_FIELDS
 			"
 			v-model="selectedRequest"
 		/>
@@ -59,6 +59,7 @@ import RequestActionSheet from "@/components/RequestActionSheet.vue"
 import {
 	LEAVE_FIELDS,
 	EXPENSE_CLAIM_FIELDS,
+	ATTENDANCE_FIELDS
 } from "@/data/config/requestSummaryFields"
 
 const props = defineProps({

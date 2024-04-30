@@ -67,14 +67,14 @@
   },
   {
    "fieldname": "from_date",
-   "fieldtype": "Date",
+   "fieldtype": "Datetime",
    "in_list_view": 1,
    "label": "From Date",
    "reqd": 1
   },
   {
    "fieldname": "to_date",
-   "fieldtype": "Date",
+   "fieldtype": "Datetime",
    "in_list_view": 1,
    "label": "To Date",
    "reqd": 1
@@ -139,7 +139,7 @@
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2024-04-26 12:42:37.958279",
+ "modified": "2024-04-29 17:39:45.910299",
  "modified_by": "Administrator",
  "module": "HR",
  "name": "Attendance Request",

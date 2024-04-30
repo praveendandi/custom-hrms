@@ -1,136 +1,103 @@
 <template>
 	<div v-if="showField" class="flex flex-col gap-1.5">
 		<!-- Label -->
-		<span
-			v-if="
-				!['Check', 'Section Break', 'Column Break'].includes(props.fieldtype)
-			"
-			:class="[
-				// mark field as mandatory
-				props.reqd ? `after:content-['_*'] after:text-red-600` : ``,
-				`block text-sm leading-5 text-gray-700`,
-			]"
-		>
+		<span v-if="
+			!['Check', 'Section Break', 'Column Break'].includes(props.fieldtype)
+		" :class="[
+			// mark field as mandatory
+			props.reqd ? `after:content-['_*'] after:text-red-600` : ``,
+			`block text-sm leading-5 text-gray-700`,
+		]">
 			{{ props.label }}
 		</span>
 
 		<!-- Link & Select -->
-		<Autocomplete
-			v-if="['Link', 'Select'].includes(props.fieldtype)"
-			ref="autocompleteRef"
-			:class="isReadOnly ? 'pointer-events-none' : ''"
-			:value="modelValue"
-			:placeholder="`Select ${props.options}`"
-			:options="selectionList"
-			@change="(v) => emit('update:modelValue', v?.value)"
-			@update:query="(q) => updateLinkFieldOptions(q)"
-			v-bind="$attrs"
-			:disabled="isReadOnly"
-		/>
+		<Autocomplete v-if="['Link', 'Select'].includes(props.fieldtype)" ref="autocompleteRef"
+			:class="isReadOnly ? 'pointer-events-none' : ''" :value="modelValue"
+			:placeholder="`Select ${props.options}`" :options="selectionList"
+			@change="(v) => emit('update:modelValue', v?.value)" @update:query="(q) => updateLinkFieldOptions(q)"
+			v-bind="$attrs" :disabled="isReadOnly" />
 
 		<!-- Text -->
-		<Input
-			v-else-if="
-				['Text Editor', 'Small Text', 'Text', 'Long Text'].includes(
-					props.fieldtype
-				)
-			"
-			type="textarea"
-			:value="modelValue"
-			:placeholder="`Enter ${props.label}`"
-			@input="(v) => emit('update:modelValue', v)"
-			@change="(v) => emit('change', v)"
-			v-bind="$attrs"
-			:disabled="isReadOnly"
-			class="h-15"
-		/>
+		<Input v-else-if="
+			['Text Editor', 'Small Text', 'Text', 'Long Text'].includes(
+				props.fieldtype
+			)
+		" type="textarea" :value="modelValue" :placeholder="`Enter ${props.label}`"
+			@input="(v) => emit('update:modelValue', v)" @change="(v) => emit('change', v)" v-bind="$attrs"
+			:disabled="isReadOnly" class="h-15" />
 
 		<!-- Check -->
-		<Input
-			v-else-if="props.fieldtype === 'Check'"
-			type="checkbox"
-			:label="props.label"
-			:value="modelValue"
-			@input="(v) => emit('update:modelValue', v)"
-			@change="(v) => emit('change', v)"
-			v-bind="$attrs"
-			:disabled="isReadOnly"
-			class="rounded-sm text-gray-800"
-		/>
+		<Input v-else-if="props.fieldtype === 'Check'" type="checkbox" :label="props.label" :value="modelValue"
+			@input="(v) => emit('update:modelValue', v)" @change="(v) => emit('change', v)" v-bind="$attrs"
+			:disabled="isReadOnly" class="rounded-sm text-gray-800" />
 
 		<!-- Data field -->
-		<Input
-			v-else-if="props.fieldtype === 'Data'"
-			type="text"
-			:value="modelValue"
-			@input="(v) => emit('update:modelValue', v)"
-			@change="(v) => emit('change', v)"
-			v-bind="$attrs"
-			:disabled="isReadOnly"
-		/>
+		<Input v-else-if="props.fieldtype === 'Data'" type="text" :value="modelValue"
+			@input="(v) => emit('update:modelValue', v)" @change="(v) => emit('change', v)" v-bind="$attrs"
+			:disabled="isReadOnly" />
 
 		<!-- Read only currency field -->
-		<Input
-			v-else-if="props.fieldtype === 'Currency' && isReadOnly"
-			type="text"
-			:value="modelValue"
-			@input="(v) => emit('update:modelValue', v)"
-			@change="(v) => emit('change', v)"
-			v-bind="$attrs"
-			:disabled="isReadOnly"
-		/>
+		<Input v-else-if="props.fieldtype === 'Currency' && isReadOnly" type="text" :value="modelValue"
+			@input="(v) => emit('update:modelValue', v)" @change="(v) => emit('change', v)" v-bind="$attrs"
+			:disabled="isReadOnly" />
 
 		<!-- Float/Int field -->
-		<Input
-			v-else-if="isNumberType"
-			type="number"
-			:value="modelValue"
-			@input="(v) => emit('update:modelValue', v)"
-			@change="(v) => emit('change', v)"
-			v-bind="$attrs"
-			:disabled="isReadOnly"
-		/>
+		<Input v-else-if="isNumberType" type="number" :value="modelValue" @input="(v) => emit('update:modelValue', v)"
+			@change="(v) => emit('change', v)" v-bind="$attrs" :disabled="isReadOnly" />
 
 		<!-- Section Break -->
-		<div
-			v-else-if="props.fieldtype === 'Section Break'"
-			:class="props.addSectionPadding ? 'mt-2' : ''"
-		>
-			<h2
-				v-if="props.label"
-				class="text-base font-semibold text-gray-800"
-				:class="props.addSectionPadding ? 'pt-4' : ''"
-			>
+		<div v-else-if="props.fieldtype === 'Section Break'" :class="props.addSectionPadding ? 'mt-2' : ''">
+			<h2 v-if="props.label" class="text-base font-semibold text-gray-800"
+				:class="props.addSectionPadding ? 'pt-4' : ''">
 				{{ props.label }}
 			</h2>
 		</div>
 
 		<!-- Date -->
 		<!-- FIXME: default datepicker has poor UI -->
-		<Input
-			v-else-if="props.fieldtype === 'Date'"
-			type="date"
+		<Input v-else-if="props.fieldtype === 'Date'" type="date" v-model="date" :value="modelValue"
+			:placeholder="`Select ${props.label}`" :formatValue="(val) => dayjs(val).format('DD-MM-YYYY')"
+			@input="(v) => emit('update:modelValue', v)" @change="(v) => emit('change', v)" v-bind="$attrs"
+			:disabled="isReadOnly" :min="props.minDate" :max="props.maxDate" />
+
+		<!-- Time -->
+		<!-- Datetime -->
+		<!-- <Input
+			v-else-if="props.fieldtype === 'Datetime'"
+			type="datetime-local"
 			v-model="date"
 			:value="modelValue"
 			:placeholder="`Select ${props.label}`"
-			:formatValue="(val) => dayjs(val).format('DD-MM-YYYY')"
+			:formatValue="(val) => dayjs(val).format('DD-MM-YYYY HH:mm')"
 			@input="(v) => emit('update:modelValue', v)"
 			@change="(v) => emit('change', v)"
 			v-bind="$attrs"
 			:disabled="isReadOnly"
 			:min="props.minDate"
 			:max="props.maxDate"
-		/>
+		/> -->
 
-		<!-- Time -->
-		<!-- Datetime -->
+
+		<!-- <TextInput v-else-if="props.fieldtype === 'Datetime'" type="datetime-local" id="datetime" v-model="date"
+			:value="modelValue" @input="(v) => emit('update:modelValue', v)" @change="(v) => emit('change', v)"
+			:formatValue="(val) => dayjs(val).format('DD-MM-YYYY HH:mm:ss')" v-bind="$attrs" :disabled="isReadOnly"
+			:min="props.minDate" :max="props.maxDate" /> -->
+
+		<TextInput v-else-if="props.fieldtype === 'Datetime'" type="datetime-local" id="datetime"
+			:value="modelValue ? dayjs(modelValue).format('YYYY-MM-DDTHH:mm:ss') : null"
+			@input="(event) => emit('update:modelValue', event.target.value)"
+			@change="(event) => emit('change', event.target.value)" v-bind="$attrs" :disabled="isReadOnly"
+			:min="props.minDate ? dayjs(props.minDate).format('YYYY-MM-DDTHH:mm:ss') : null"
+			:max="props.maxDate ? dayjs(props.maxDate).format('YYYY-MM-DDTHH:mm:ss') : null" />
+
 
 		<ErrorMessage :message="props.errorMessage" />
 	</div>
 </template>
 
 <script setup>
-import { createResource, Autocomplete, ErrorMessage, debounce } from "frappe-ui"
+import { createResource, Autocomplete, ErrorMessage, debounce, TextInput } from "frappe-ui"
 import { ref, computed, onMounted, inject, watchEffect } from "vue"
 
 const props = defineProps({
