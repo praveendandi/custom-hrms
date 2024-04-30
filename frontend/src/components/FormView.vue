@@ -375,6 +375,7 @@ const props = defineProps({
 		default: true,
 	},
 })
+
 const emit = defineEmits(["validateForm", "update:modelValue"])
 const router = useRouter()
 let activeTab = ref(props.tabs?.[0].name)

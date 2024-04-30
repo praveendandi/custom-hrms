@@ -3,7 +3,7 @@
 	<ion-page>
 		<ion-content :fullscreen="true">
 			<FormView v-if="formFields.data" doctype="Attendance Request" v-model="attendenceApplication"
-				:isSubmittable="true" :fields="formFields.data" :showAttachmentView="false"
+				:isSubmittable="true" :fields="formFields.data" :showAttachmentView="false" :id="props.id"
 				@validateForm="validateForm" />
 		</ion-content>
 	</ion-page>
@@ -11,7 +11,7 @@
 <script setup>
 import { IonPage, IonContent } from "@ionic/vue"
 import { createResource } from "frappe-ui"
-import { inject, ref } from "vue"
+import { inject, ref, watch } from "vue"
 
 import FormView from "@/components/FormView.vue"
 
@@ -36,18 +36,35 @@ const formFields = createResource({
 formFields.reload()
 
 
+watch(
+	() => [attendenceApplication.value.from_date, attendenceApplication.value.to_date],
+	([from_date, to_date]) => {
+		// validateDates(from_date, to_date)
+	}
+)
 
+function validateDates(from_date, to_date) {
+	if (!(from_date && to_date)) return
+
+	const error_message =
+		from_date > to_date ? "To Date cannot be before From Date" : ""
+
+	const from_date_field = formFields.data.find(
+		(field) => field.fieldname === "from_date"
+	)
+	from_date_field.error_message = error_message
+}
 
 // helper functions
 function getFilteredFields(fields) {
 	// reduce noise from the form view by excluding unnecessary fields
 	// ex: employee and other details can be fetched from the session user
 	const excludeFields = [
-		
+
 	]
 	const employeeFields = [
 		"employee",
-		"company"		
+		"company"
 	]
 	if (!props.id) excludeFields.push(...employeeFields)
 	return fields.filter((field) => !excludeFields.includes(field.fieldname))

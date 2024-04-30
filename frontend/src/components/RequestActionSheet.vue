@@ -182,6 +182,7 @@ const props = defineProps({
 		required: true,
 	},
 })
+
 const router = useRouter()
 
 let showPreviewModal = ref(false)

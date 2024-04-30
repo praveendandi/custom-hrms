@@ -21,28 +21,33 @@ import RequestList from "@/components/RequestList.vue"
 
 import { myLeaves, teamLeaves } from "@/data/leaves"
 import { myClaims, teamClaims } from "@/data/claims"
+import { myAttendance } from "@/data/attendance"
 
 import LeaveRequestItem from "@/components/LeaveRequestItem.vue"
 import ExpenseClaimItem from "@/components/ExpenseClaimItem.vue"
+import AttendanceReqItem from "@/components/AttendanceReqItem.vue"
 
 import { useListUpdate } from "@/composables/realtime"
 
 const activeTab = ref("My Requests")
 const socket = inject("$socket")
 
-const myRequests = computed(() => updateRequestDetails(myLeaves, myClaims))
+const myRequests = computed(() => updateRequestDetails(myLeaves, myClaims, myAttendance))
 
 const teamRequests = computed(() =>
 	updateRequestDetails(teamLeaves, teamClaims)
 )
 
-function updateRequestDetails(leaves, claims) {
-	const requests = [...(leaves.data || []), ...(claims.data || [])]
+function updateRequestDetails(leaves, claims, attendance) {
+	const requests = [...(leaves.data || []), ...(claims.data || []), ...(attendance.data||[])]
+
 	requests.forEach((request) => {
 		if (request.doctype === "Leave Application") {
 			request.component = markRaw(LeaveRequestItem)
 		} else if (request.doctype === "Expense Claim") {
 			request.component = markRaw(ExpenseClaimItem)
+		} else if (request.doctype === "Attendance Request"){
+			request.component = markRaw(AttendanceReqItem)
 		}
 	})
 	return getSortedRequests(requests)
