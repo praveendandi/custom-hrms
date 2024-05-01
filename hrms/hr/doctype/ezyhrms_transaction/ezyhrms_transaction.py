@@ -37,6 +37,7 @@ class EzyHrmsTransaction(Document):
 
 @frappe.whitelist()
 def sync_transaction_month_wise(list_of_ids: list|None):
+	# pass list of ids of records as parameter
 	try:
 		if len(list_of_ids)<=0:
 			return {"success":False,"message":"Select atleast one record for syncing data."}
