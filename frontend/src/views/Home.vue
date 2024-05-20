@@ -43,15 +43,15 @@ const quickLinks = [
 		title: "View Salary Slips",
 		route: "SalarySlipsDashboard",
 	},
-	{
-		icon: markRaw(LeaveIcon),
-		title: "Request Attendence",
-		route: "AttendanceRequestFormView",
-	},
+	// {
+	// 	icon: markRaw(LeaveIcon),
+	// 	title: "Request Attendence",
+	// 	route: "AttendanceRequestFormView",
+	// },
 	{
 		icon: markRaw(LeaveIcon),
 		title: "Missing Checkins",
-		route: "MissingCheckinRequestFormView",
+		route: "EmployeeMissingCheckinsRequestListView",
 	},
 ]
 </script>

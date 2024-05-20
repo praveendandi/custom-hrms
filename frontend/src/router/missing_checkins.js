@@ -1,14 +1,19 @@
 const routes = [
 	{
-		name: "MissingCheckinRequestFormView",
-		path: "/missing-checkins",
+		name: "EmployeeMissingCheckinsRequestFormView",
+		path: "/missing-checkins/new",
 		component: () => import("@/views/missing_checkins/Form.vue"),
 	},
 	{
-		name: "MissingCheckinRequestDetailView",
+		name: "EmployeeMissingCheckinsRequestDetailView",
 		path: "/missing-checkins/:id",
 		props: true,
 		component: () => import("@/views/missing_checkins/Form.vue"),
+	},
+    {
+		name: "EmployeeMissingCheckinsRequestListView",
+		path: "/missing-checkins",
+		component: () => import("@/views/missing_checkins/List.vue"),
 	},
 ]
 

@@ -22,10 +22,12 @@ import RequestList from "@/components/RequestList.vue"
 import { myLeaves, teamLeaves } from "@/data/leaves"
 import { myClaims, teamClaims } from "@/data/claims"
 import { myAttendance } from "@/data/attendance"
+// import { myMissingCheckins } from "@data/missing-checkins"
 
 import LeaveRequestItem from "@/components/LeaveRequestItem.vue"
 import ExpenseClaimItem from "@/components/ExpenseClaimItem.vue"
 import AttendanceReqItem from "@/components/AttendanceReqItem.vue"
+import MissingCheckinItem from "@/components/MissingCheckinItem.vue"
 
 import { useListUpdate } from "@/composables/realtime"
 
@@ -33,6 +35,8 @@ const activeTab = ref("My Requests")
 const socket = inject("$socket")
 
 const myRequests = computed(() => updateRequestDetails(myLeaves, myClaims, myAttendance))
+
+console.log(" My Requests ==== ", myRequests)
 
 const teamRequests = computed(() =>
 	updateRequestDetails(teamLeaves, teamClaims)
@@ -48,7 +52,10 @@ function updateRequestDetails(leaves, claims, attendance) {
 			request.component = markRaw(ExpenseClaimItem)
 		} else if (request.doctype === "Attendance Request"){
 			request.component = markRaw(AttendanceReqItem)
+		}else if (request.doctype === "Employee Missing Checkins Request"){
+			request.component = markRaw(MissingCheckinItem)
 		}
+
 	})
 	return getSortedRequests(requests)
 }

@@ -136,6 +136,38 @@ def get_attendance_requests(
 
 	return applications
 
+# Employee Missing Checkins
+@frappe.whitelist()
+def get_missing_checkins_requests(
+	employee: str,
+	approver_id: str | None = None,
+	for_approval: bool = False,
+	limit: int | None = None,
+) -> list[dict]:
+	filters = {"employee": employee}
+	fields = [
+		"*"
+	]
+	print(" ======  Employee Missing Checkins ===== ",)
+	# if workflow_state_field := get_workflow_state_field("Attendance Request"):
+	# 	fields.append(workflow_state_field)
+
+	applications = frappe.get_list(
+		"Employee Missing Checkins Request",
+		fields=fields,
+		filters=filters,
+		order_by="creation desc",
+		limit=limit,
+	)
+
+	# if workflow_state_field:
+	# 	for application in applications:
+	# 		application["workflow_state_field"] = workflow_state_field
+	print("Applications Missing ======   ",applications)
+
+	return applications
+
+
 
 # Leaves and Holidays
 @frappe.whitelist()
