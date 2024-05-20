@@ -161,3 +161,31 @@ export const ATTENDANCE_FIELDS = [
 		fieldtype: "Select",
 	},
 ]
+
+export const MISSING_CHECKINS_FIELDS = [
+	{
+		fieldname: "name",
+		label: "ID",
+		fieldtype: "Data",
+	},
+	{
+		fieldname: "reason",
+		label: "Reason",
+		fieldtype: "Data",
+	},
+	{
+		fieldname: "shift",
+		label: "Shift",
+		fieldtype: "Data",
+	},
+	{
+		fieldname: "employee",
+		label: "Employee",
+		fieldtype: "Link",
+	},
+	{
+		fieldname: "status",
+		label: "Status",
+		fieldtype: "Select",
+	},
+]

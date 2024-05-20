@@ -129,6 +129,7 @@ import TabButtons from "@/components/TabButtons.vue"
 import LeaveRequestItem from "@/components/LeaveRequestItem.vue"
 import ExpenseClaimItem from "@/components/ExpenseClaimItem.vue"
 import EmployeeAdvanceItem from "@/components/EmployeeAdvanceItem.vue"
+import MissingCheckinItem from "@/components/MissingCheckinItem.vue"
 import ListFiltersActionSheet from "@/components/ListFiltersActionSheet.vue"
 import CustomIonModal from "@/components/CustomIonModal.vue"
 
@@ -166,6 +167,7 @@ const listItemComponent = {
 	"Leave Application": markRaw(LeaveRequestItem),
 	"Expense Claim": markRaw(ExpenseClaimItem),
 	"Employee Advance": markRaw(EmployeeAdvanceItem),
+	"Employee Missing Checkins Request": markRaw(MissingCheckinItem)
 }
 
 const router = useRouter()
@@ -247,6 +249,8 @@ const documents = createResource({
 		return pagedData
 	},
 })
+
+console.log(" documents ===== ", documents)
 
 // helper functions
 function initializeFilters() {
