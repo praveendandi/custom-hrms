@@ -48,5 +48,10 @@ const quickLinks = [
 		title: "Request Attendence",
 		route: "AttendanceRequestFormView",
 	},
+	{
+		icon: markRaw(LeaveIcon),
+		title: "Missing Checkins",
+		route: "MissingCheckinRequestFormView",
+	},
 ]
 </script>
