@@ -6,7 +6,7 @@
 			<div class="font-medium text-sm text-gray-500 mt-1.5" v-if="lastLog">
 				Last {{ lastLogType }} was at {{ lastLogTime }}
 			</div>
-			<Button
+			<!-- <Button
 				class="mt-4 mb-1 drop-shadow-sm py-5 text-base"
 				id="open-checkin-modal"
 				@click="checkinTimestamp = dayjs().format('YYYY-MM-DD HH:mm:ss')"
@@ -18,7 +18,7 @@
 					/>
 				</template>
 				{{ nextAction.label }}
-			</Button>
+			</Button> -->
 
 			<ion-modal
 				ref="modal"
