@@ -132,6 +132,15 @@
 					"
 				/>
 			</ion-modal>
+			<ion-modal
+				ref="modal"
+				:is-open="isInfoModalOpen"
+				@didDismiss="closeInfoModal"
+				:initial-breakpoint="1"
+				:breakpoints="[0, 1]"
+			>
+				<ChangePasswordModal/>
+			</ion-modal>
 		</ion-content>
 	</ion-page>
 </template>
@@ -146,6 +155,7 @@ import { showErrorAlert } from "@/utils/dialogs"
 import { formatCurrency } from "@/utils/formatters"
 
 import ProfileInfoModal from "@/components/ProfileInfoModal.vue"
+import ChangePasswordModal from "@/components/ChangePassword.vue"
 
 import { arePushNotificationsEnabled } from "@/data/notifications"
 
@@ -171,6 +181,14 @@ const profileLinks = [
 			"blood_group",
 		],
 	},
+	// {
+	// 	icon: "password",
+	// 	title: "Change Password",
+	// 	fields: [
+	// 		"email",
+	// 		"username"
+	// 	],
+	// },
 	{
 		icon: "file",
 		title: "Company Information",
@@ -213,6 +231,7 @@ const profileLinks = [
 ]
 
 const isInfoModalOpen = ref(false)
+const isChangePwdModalOpen = ref(false)
 const selectedItem = ref(null)
 
 const allowPushNotifications = computed(
@@ -222,13 +241,24 @@ const allowPushNotifications = computed(
 )
 
 const openInfoModal = async (request) => {
-	selectedItem.value = request
-	isInfoModalOpen.value = true
+	
+
+	if(request?.title == 'Change Password'){
+		isChangePwdModalOpen.value = true
+	}else{
+		selectedItem.value = request
+		isInfoModalOpen.value = true
+	}
 }
 
-const closeInfoModal = async (_request) => {
-	isInfoModalOpen.value = false
-	selectedItem.value = null
+const closeInfoModal = async (_request) => {	
+
+	if(request?.title == 'Change Password'){
+		isChangePwdModalOpen.value = false
+	}else{
+		isInfoModalOpen.value = false
+		selectedItem.value = null
+	}
 }
 
 const employeeDoc = createDocumentResource({

@@ -5,15 +5,15 @@
 				<div class="flex flex-col mx-auto gap-3 items-center">
 					<FrappeHRLogo class="h-8 w-8" />
 					<div class="text-3xl font-semibold text-gray-900 text-center">
-						Login to Frappe HR
+						Login 
 					</div>
 				</div>
 
 				<div class="mx-auto mt-10 w-full px-8 sm:w-96">
 					<form class="flex flex-col space-y-4" @submit.prevent="submit">
 						<Input
-							label="Email"
-							placeholder="johndoe@mail.com"
+							label="Employee ID"
+							placeholder="Employee ID"
 							v-model="email"
 							type="text"
 						/>

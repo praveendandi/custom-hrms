@@ -8,7 +8,7 @@
 						{{ props.doc.reason }}
 					</div>
 					<div class="text-xs font-normal text-gray-500">
-						<span>{{ props.doc.leave_dates || getLeaveDates(props.doc) }}</span>
+						<span>{{ props.doc.date || getLeaveDates(props.doc) }}</span>
 						<span class="whitespace-pre"> &middot; </span>
 						<!-- <span class="whitespace-nowrap">{{
 							`${props.doc.total_leave_days}d`
