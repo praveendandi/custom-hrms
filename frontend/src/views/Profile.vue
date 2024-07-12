@@ -132,9 +132,11 @@
 					"
 				/>
 			</ion-modal>
+
+			
 			<ion-modal
 				ref="modal"
-				:is-open="isInfoModalOpen"
+				:is-open="isChangePwdModalOpen"
 				@didDismiss="closeInfoModal"
 				:initial-breakpoint="1"
 				:breakpoints="[0, 1]"
