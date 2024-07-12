@@ -24,6 +24,12 @@ SUPPORTED_FIELD_TYPES = [
 	"Currency",
 ]
 
+@frappe.whitelist()
+def user_password_update(pwd):
+    user = frappe.get_doc("User", frappe.session.user)
+    user.set_password(pwd)
+    user.save()
+    return {"message": "Password updated successfully"}
 
 @frappe.whitelist()
 def get_current_user_info() -> dict:
