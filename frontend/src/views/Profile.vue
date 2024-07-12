@@ -181,14 +181,14 @@ const profileLinks = [
 			"blood_group",
 		],
 	},
-	// {
-	// 	icon: "password",
-	// 	title: "Change Password",
-	// 	fields: [
-	// 		"email",
-	// 		"username"
-	// 	],
-	// },
+	{
+		icon: "password",
+		title: "Change Password",
+		fields: [
+			"email",
+			"username"
+		],
+	},
 	{
 		icon: "file",
 		title: "Company Information",

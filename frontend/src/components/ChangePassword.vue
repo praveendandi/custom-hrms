@@ -1,14 +1,18 @@
-<template>
-	<ion-page>
-		<ion-content class="ion-padding">
-			<div class="flex h-screen w-screen flex-col justify-center bg-white">
-				<div class="flex flex-col mx-auto gap-3 items-center">
-					<div class="text-3xl font-semibold text-gray-900 text-center">
-						Change Password 
-					</div>
-				</div>
 
-				<div class="mx-auto mt-10 w-full px-8 sm:w-96">
+<template>
+	<div
+		class="bg-white w-full flex flex-col items-center justify-center pb-5 max-h-[calc(100vh-5rem)]"
+	>
+		<!-- Header -->
+		<div
+			class="w-full flex flex-row gap-2 pt-8 pb-5 border-b justify-center items-center sticky top-0 z-[100]"
+		>
+			<span class="text-gray-900 font-bold text-lg text-center">
+				Change Password 
+			</span>
+		</div>
+
+		<div class="mx-auto mt-10 w-full px-8 sm:w-96">
 					<form class="flex flex-col space-y-4" @submit.prevent="submit">
 						
 						<Input
@@ -27,11 +31,7 @@
 						</Button>
 					</form>
 				</div>
-			</div>
-
-			
-		</ion-content>
-	</ion-page>
+	</div>
 </template>
 
 <script setup>
@@ -43,9 +43,15 @@ const password = ref(null)
 const errorMessage = ref("")
 
 const session = inject("$session")
+// const userPswd = inject("$userPswd")
 
 async function submit(e) {
 	try {
+        console.log(" ==== e === ", password.value)
+        // const response = await userPswd.userChangePswd(password.value)
+        // console.log(" ==== response === ", response)
+
+
 		// const response = await session.login(email.value, password.value)
 		// if (response.message === "Password Reset") {
 		// 	resetPassword.value = true
