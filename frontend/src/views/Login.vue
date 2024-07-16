@@ -24,6 +24,7 @@
 							v-model="password"
 						/>
 						<ErrorMessage :message="errorMessage" />
+						<a @click.prevent="openForgotPassword">Forgot Password?</a>
 						<Button
 							:loading="session.login.loading"
 							variant="solid"
@@ -54,6 +55,29 @@
 					</a>
 				</template>
 			</Dialog>
+
+			<Dialog v-model="forgotPassword">
+				<template #body-title>
+					<h2 class="text-lg font-bold">Forgot Password</h2>
+				</template>
+				<template #body-content>
+					<Input
+						label="Email Address"
+						placeholder="Enter your email address"
+						v-model="forgotPasswordEmail"
+						type="email"
+					/>
+					<ErrorMessage :message="forgotPasswordError" />
+				</template>
+				<template #actions>
+					<Button @click="resetForgotPassword" variant="solid">
+						Reset Password
+					</Button>
+					<Button @click="closeForgotPassword" variant="outline">
+						Back to Login
+					</Button>
+				</template>
+			</Dialog>
 		</ion-content>
 	</ion-page>
 </template>
@@ -71,6 +95,10 @@ const errorMessage = ref("")
 const resetPassword = ref(false)
 const resetPasswordLink = ref("")
 
+const forgotPassword = ref(false)
+const forgotPasswordEmail = ref("")
+const forgotPasswordError = ref("")
+
 const session = inject("$session")
 
 async function submit(e) {
@@ -85,6 +113,31 @@ async function submit(e) {
 		}
 	} catch (error) {
 		errorMessage.value = error.messages.join("\n")
+	}
+}
+
+function openForgotPassword() {
+	forgotPassword.value = true
+}
+
+function closeForgotPassword() {
+	forgotPassword.value = false
+}
+
+async function resetForgotPassword() {
+	try {
+		fetch("/api/method/frappe.core.doctype.user.user.reset_password", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ user: forgotPasswordEmail.value})
+      })
+		forgotPasswordError.value = ""
+		closeForgotPassword()
+		alert("Password reset link sent to your email")
+	} catch (error) {
+		forgotPasswordError.value = error.message
 	}
 }
 </script>
