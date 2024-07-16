@@ -1,67 +1,62 @@
-
 <template>
-	<div
-		class="bg-white w-full flex flex-col items-center justify-center pb-5 max-h-[calc(100vh-5rem)]"
-	>
-		<!-- Header -->
-		<div
-			class="w-full flex flex-row gap-2 pt-8 pb-5 border-b justify-center items-center sticky top-0 z-[100]"
-		>
-			<span class="text-gray-900 font-bold text-lg text-center">
-				Change Password 
-			</span>
-		</div>
+  <div>
+    <div v-if="showConfirmation">
+      <p class="py-4 px-2">Are you sure you want to change the password?</p>
 
-		<div class="mx-auto mt-10 w-full px-8 sm:w-96">
-					<form class="flex flex-col space-y-4" @submit.prevent="submit">
-						
-						<Input
-							label="New Password"
-							type="password"
-							placeholder="••••••"
-							v-model="password"
-						/>
-						<ErrorMessage :message="errorMessage" />
-						<Button
-							:loading="session.login.loading"
-							variant="solid"
-							class="disabled:bg-gray-700 disabled:text-white !mt-6"
-						>
-							Save
-						</Button>
-					</form>
-				</div>
-	</div>
+	  <ion-buttons slot="end">
+				<Button class="w-full rounded py-5 px-2 text-white" style="background-color: black;margin-right:5px" @click="confirmChangePassword">Yes</Button>
+				<Button  class="w-full rounded py-5 px-2 text-base" style="background-color: rgb(225 218 218); margin-left:5px" @click="cancelChange">No</Button>
+		</ion-buttons>
+
+		
+    </div>
+  </div>
 </template>
 
-<script setup>
-import { IonPage, IonContent } from "@ionic/vue"
-import { inject, ref } from "vue"
-import { Input, Button, ErrorMessage, Dialog } from "frappe-ui"
-
-const password = ref(null)
-const errorMessage = ref("")
-
-const session = inject("$session")
-// const userPswd = inject("$userPswd")
-
-async function submit(e) {
-	try {
-        console.log(" ==== e === ", password.value)
-        // const response = await userPswd.userChangePswd(password.value)
-        // console.log(" ==== response === ", response)
-
-
-		// const response = await session.login(email.value, password.value)
-		// if (response.message === "Password Reset") {
-		// 	resetPassword.value = true
-		// 	resetPasswordLink.value = response.redirect_to
-		// } else {
-		// 	resetPassword.value = false
-		// 	resetPasswordLink.value = ""
-		// }
-	} catch (error) {
-		errorMessage.value = error.messages.join("\n")
-	}
-}
+<script>
+import {
+	IonButtons,
+	IonButton
+} from "@ionic/vue"
+import {userResource} from "../data/user"
+export default {
+  data() {
+    return {
+      password: '',
+      showConfirmation: false
+    };
+  },
+  mounted() {
+    // Automatically show the confirmation dialog on component mount
+    this.showConfirmationDialog();
+  },
+  methods: {
+    showConfirmationDialog() {
+      this.showConfirmation = true;
+    },
+    confirmChangePassword() {
+      // Call your API here
+      fetch("/api/method/frappe.core.doctype.user.user.reset_password", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ user: userResource.data.name })
+      })
+      .then(response => response.json())
+      .then(data => {
+        console.log('Success:', data);
+        // Handle success (e.g., show a success message)
+        this.showConfirmation = false;
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        // Handle error (e.g., show an error message)
+      });
+    },
+    cancelChange() {
+      this.showConfirmation = false;
+    }
+  }
+};
 </script>
