@@ -52,11 +52,11 @@ const quickLinks = [
 	// 	icon: markRaw(LeaveIcon),
 	// 	title: "Request Attendence",
 	// 	route: "AttendanceRequestFormView",
-	// },
-	{
-		icon: markRaw(LeaveIcon),
-		title: "Missing Checkins",
-		route: "EmployeeMissingCheckinsRequestListView",
-	},
+	// }
+	//{
+	//	icon: markRaw(LeaveIcon),
+	//	title: "Missing Checkins",
+	//	route: "EmployeeMissingCheckinsRequestListView",
+	//},
 ]
 </script>
