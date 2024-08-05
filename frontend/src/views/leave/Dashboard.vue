@@ -9,13 +9,6 @@
 						:to="{ name: 'LeaveApplicationFormView' }"
 						v-slot="{ navigate }"
 					>
-						<Button
-							@click="navigate"
-							variant="solid"
-							class="py-5 text-base w-full"
-						>
-							Request a Leave
-						</Button>
 					</router-link>
 					<div>
 						<div class="text-lg text-gray-800 font-bold">Recent Leaves</div>
