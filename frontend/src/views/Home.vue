@@ -23,11 +23,11 @@ import EmployeeAdvanceIcon from "@/components/icons/EmployeeAdvanceIcon.vue"
 import SalaryIcon from "@/components/icons/SalaryIcon.vue"
 
 const quickLinks = [
-	{
-		icon: markRaw(LeaveIcon),
-		title: "Request Leave",
-		route: "LeaveApplicationFormView",
-	},
+	//{
+	//	icon: markRaw(LeaveIcon),
+	//	title: "Request Leave",
+	//	route: "LeaveApplicationFormView",
+	//},
 	{
 		icon: markRaw(LeaveIcon),
 		title: "Request Compensatory",
