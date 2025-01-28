@@ -1,4 +1,4 @@
-   <template>
+<template>
 	<div class="flex flex-col bg-white rounded w-full py-6 px-4 border-none">
 	  <h2 class="text-lg font-bold text-gray-900">
 		Hey, {{ employee?.data?.first_name }} 👋
@@ -68,6 +68,9 @@
   const dayjs = inject("$dayjs");
   
   const checkinTimestamp = ref(null);
+  const latitude = ref(0)
+  const longitude = ref(0)
+  const locationStatus = ref("")
   
   const user_roles = createResource({
 	url: "hrms.api.get_current_user_info", 
@@ -77,7 +80,7 @@
   const checkins = createListResource({
 	doctype: DOCTYPE,
 	fields: ["name", "employee", "employee_name", "log_type", "time", "device_id"],
-	filters: { employee: employee?.data?.name },
+	filters: { employee: employee?.data?.name ,time:['Between',[new Date().toISOString().split('T')[0],new Date().toISOString().split('T')[0]]],},
 	orderBy: "time desc",
   });
   checkins.reload();
@@ -102,6 +105,29 @@
 	  ? { action: "OUT", label: "Check Out" }
 	  : { action: "IN", label: "Check In" };
   });
+
+  function handleLocationSuccess(position) {
+	latitude.value = position.coords.latitude
+	longitude.value = position.coords.longitude
+	locationStatus.value = [
+		("Latitude: {0}°", [Number(latitude.value).toFixed(5)]),
+		("Longitude: {0}°", [Number(longitude.value).toFixed(5)]),
+	].join(", ")
+	}
+
+	function handleLocationError(error) {
+		locationStatus.value = "Unable to retrieve your location"
+		if (error) locationStatus.value += `: ERROR(${error.code}): ${error.message}`
+	}
+
+  const fetchLocation = () => {
+	if (!navigator.geolocation) {
+		locationStatus.value = ("Geolocation is not supported by your current browser")
+	} else {
+		locationStatus.value = ("Locating...")
+		navigator.geolocation.getCurrentPosition(handleLocationSuccess, handleLocationError,{enableHighAccuracy:true})
+	}
+ }
   
   const lastLogTime = computed(() => {
 	const timestamp = lastLog?.value?.time;
@@ -117,6 +143,7 @@
   
   const handleEmployeeCheckin = () => {
 	checkinTimestamp.value = dayjs().format("YYYY-MM-DD HH:mm:ss");
+	fetchLocation()
   };
   
   const submitLog = (logType) => {
@@ -128,6 +155,8 @@
 		log_type: logType,
 		time: checkinTimestamp.value,
 		device_id: "Mobile App",
+		custom_latitude:latitude.value,
+		custom_longitude:longitude.value
 	  },
 	  {
 		onSuccess() {
