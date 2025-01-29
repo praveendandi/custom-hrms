@@ -2,6 +2,7 @@
 	<div class="flex flex-col bg-white rounded w-full py-6 px-4 border-none">
 	  <h2 class="text-lg font-bold text-gray-900">
 		Hey, {{ employee?.data?.first_name }} 👋
+			 {{ fetchLocation() }}
 	  </h2>
   
 	  <div class="font-medium text-sm text-gray-500 mt-1.5" v-if="lastLog">
@@ -14,13 +15,13 @@
 		  id="open-checkin-modal"
 		  @click="handleEmployeeCheckin"
 		>
-		  <template #prefix>
+		  <template #prefix >
 			<FeatherIcon
 			  :name="nextAction.action === 'IN' ? 'arrow-right-circle' : 'arrow-left-circle'"
 			  class="w-4"
 			/>
 		  </template>
-		  {{ nextAction.label }}
+			{{ nextAction.label }}
 		</Button>
 	  </template>
   
@@ -45,7 +46,7 @@
 			{{ dayjs().format("D MMM, YYYY") }}
 		  </div>
 		</div>
-		<Button
+		<Button v-if="isLocationOn()"
 		  variant="solid"
 		  class="w-full py-5 text-sm"
 		  @click="submitLog(nextAction.action)"
@@ -71,7 +72,11 @@
   const latitude = ref(0)
   const longitude = ref(0)
   const locationStatus = ref("")
-  
+
+  const isLocationOn = () => {
+	return (parseInt(latitude.value) !== 0 && parseInt(longitude.value) !== 0);
+  };
+
   const user_roles = createResource({
 	url: "hrms.api.get_current_user_info", 
 	auto: true,
@@ -107,6 +112,7 @@
   });
 
   function handleLocationSuccess(position) {
+
 	latitude.value = position.coords.latitude
 	longitude.value = position.coords.longitude
 	locationStatus.value = [
@@ -145,6 +151,7 @@
 	checkinTimestamp.value = dayjs().format("YYYY-MM-DD HH:mm:ss");
 	fetchLocation()
   };
+
   
   const submitLog = (logType) => {
 	const action = logType === "IN" ? "Check-in" : "Check-out";
